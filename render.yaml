@@ -1,0 +1,37 @@
+# Render Infrastructure as Code for continuous Discord bot runtime
+
+services:
+  - type: web
+    name: aerox-music-bot
+    env: node
+    plan: starter
+    autoDeploy: true
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /health
+    envVars:
+      # Discord bot credentials
+      - key: BOT_TOKEN
+        fromSecret: BOT_TOKEN
+      - key: CLIENT_ID
+        fromSecret: CLIENT_ID
+      - key: OWNER_ID
+        fromSecret: OWNER_ID
+
+      # Lavalink configuration (update to match your node)
+      - key: LAVALINK_HOSTS
+        value: nexus.voidhosting.vip
+      - key: LAVALINK_PORTS
+        value: "6004"
+      - key: LAVALINK_PASSWORDS
+        value: cocaine
+      - key: LAVALINK_SECURES
+        value: "false"
+
+      # Optional integrations
+      - key: SPOTIFY_CLIENT_ID
+        fromSecret: SPOTIFY_CLIENT_ID
+      - key: SPOTIFY_CLIENT_SECRET
+        fromSecret: SPOTIFY_CLIENT_SECRET
+      - key: GENIUS_API_KEY
+        fromSecret: GENIUS_API_KEY
